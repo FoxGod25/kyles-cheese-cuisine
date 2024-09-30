@@ -1,0 +1,34 @@
+{
+    "name": "Kyle's Cheese Cuisine.",
+    "description": "",
+    "dependencies": {
+        "device": "*",
+        "pxt-status-bar": "github:jwunderl/pxt-status-bar#v0.4.2",
+        "arcade-sprite-util": "github:jwunderl/arcade-sprite-util#v0.4.1",
+        "darts": "*",
+        "arcade-background-scroll": "github:microsoft/arcade-background-scroll#v0.1.2"
+    },
+    "files": [
+        "main.blocks",
+        "main.ts",
+        "README.md",
+        "assets.json",
+        "tilemap.g.jres",
+        "tilemap.g.ts"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "targetVersions": {
+        "branch": "v1.12.32",
+        "tag": "v1.12.32",
+        "commits": "https://github.com/microsoft/pxt-arcade/commits/2bc63c8f9e7915ee02ddc6f113204107954f24b6",
+        "target": "1.12.56",
+        "pxt": "8.5.44",
+        "targetId": "arcade"
+    },
+    "supportedTargets": [
+        "arcade"
+    ],
+    "preferredEditor": "blocksprj"
+}

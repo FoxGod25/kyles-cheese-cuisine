@@ -72,6 +72,8 @@ scene.onHitWall(SpriteKind.Player, function (sprite, location) {
                 info.changeLifeBy(1)
                 game.showLongText("You got 1 Cheese! +1 Health", DialogLayout.Bottom)
                 info.changeScoreBy(-5)
+            } else if (YesNo == "Kyle") {
+                tiles.setCurrentTilemap(tilemap`level15`)
             } else {
                 game.showLongText("Oh okay then...", DialogLayout.Bottom)
             }
@@ -185,6 +187,15 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
             `, mySprite, 70, 15)
     }
 })
+controller.combos.attachCombo("" + controller.combos.idToString(controller.combos.ID.up) + controller.combos.idToString(controller.combos.ID.up) + controller.combos.idToString(controller.combos.ID.down) + controller.combos.idToString(controller.combos.ID.down) + controller.combos.idToString(controller.combos.ID.left) + controller.combos.idToString(controller.combos.ID.right) + controller.combos.idToString(controller.combos.ID.left) + controller.combos.idToString(controller.combos.ID.right) + controller.combos.idToString(controller.combos.ID.B) + controller.combos.idToString(controller.combos.ID.A), function () {
+    game.splash("Imshalov")
+    game.splash(" Asty")
+    game.splash("Meroculous")
+    game.splash(" Kerester")
+    game.splash("Yemeresty")
+    game.splash("Lendipidy")
+    game.splash("Endestero")
+})
 statusbars.onZero(StatusBarKind.BossHP, function (status) {
     tiles.setCurrentTilemap(tilemap`level13`)
     tiles.placeOnTile(mySprite, tiles.getTileLocation(3, 0))
@@ -292,16 +303,6 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, l
     }
     tiles.setTileAt(location, assets.tile`transparency16`)
     info.changeScoreBy(1)
-})
-controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
-    tiles.setCurrentTilemap(tilemap`level6`)
-    tiles.placeOnTile(mySprite, tiles.getTileLocation(7, 24))
-    sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
-    sprites.destroyAllSpritesOfKind(SpriteKind.FirstEnemy)
-    controller.moveSprite(mySprite)
-    mySprite3.ay = 0
-    Level1 = 0
-    Intro = 1
 })
 sprites.onOverlap(SpriteKind.boss, SpriteKind.PizzaProjectile, function (sprite, otherSprite) {
     statusbar2.value += -1

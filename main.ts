@@ -5,6 +5,9 @@ namespace SpriteKind {
     export const tax = SpriteKind.create()
     export const BossProjectile = SpriteKind.create()
     export const PizzaProjectile = SpriteKind.create()
+    export const SecretBoss = SpriteKind.create()
+    export const SBP = SpriteKind.create()
+    export const BeforeBattleBoss = SpriteKind.create()
 }
 namespace StatusBarKind {
     export const BossHP = StatusBarKind.create()
@@ -55,10 +58,18 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, l
         statusbar2 = statusbars.create(20, 4, StatusBarKind.BossHP)
         statusbar2.max = 3
         statusbar2.attachToSprite(mySprite4)
-    } else if (false) {
-    	
-    } else if (false) {
-    	
+    } else if (Level1 == 3) {
+        tiles.setCurrentTilemap(tilemap`level21`)
+        mySprite.ay = 600
+        mySprite.ay = 600
+        controller.moveSprite(mySprite, 100, 0)
+        sprites.destroy(mySprite2)
+    } else if (Level1 == 4) {
+        tiles.setCurrentTilemap(tilemap`level10`)
+        controller.moveSprite(mySprite, 100, 0)
+        mySprite.ay = 400
+        sprites.destroy(mySprite2)
+        SpaceLV = true
     } else if (false) {
     	
     }
@@ -74,6 +85,26 @@ scene.onHitWall(SpriteKind.Player, function (sprite, location) {
                 info.changeScoreBy(-5)
             } else if (YesNo == "Kyle") {
                 tiles.setCurrentTilemap(tilemap`level15`)
+                tiles.placeOnTile(mySprite, tiles.getTileLocation(3, 6))
+                _ = sprites.create(img`
+                    . f f f f f f f f f f f f f f . 
+                    . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+                    . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+                    . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+                    . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+                    . . f f 1 f 1 f f f f 1 f f . . 
+                    . . f f f f f f f f f f f f . . 
+                    . f f f f c c c c c c f f f f . 
+                    . f f f 4 b c c c c b 4 f f f . 
+                    . . f f f d b b b b d f f f . . 
+                    . . . f f f 4 4 4 4 f f f . . . 
+                    . . e 4 f 2 2 2 2 2 2 f 4 e . . 
+                    . . 4 d f 2 2 2 2 2 2 f d 4 . . 
+                    . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
+                    . . . . . f f f f f f . . . . . 
+                    . . . . . f f . . f f . . . . . 
+                    `, SpriteKind.BeforeBattleBoss)
+                Secret1 = true
             } else {
                 game.showLongText("Oh okay then...", DialogLayout.Bottom)
             }
@@ -195,12 +226,10 @@ controller.combos.attachCombo("" + controller.combos.idToString(controller.combo
     game.splash("Yemeresty")
     game.splash("Lendipidy")
     game.splash("Endestero")
+    info.changeScoreBy(5)
 })
 statusbars.onZero(StatusBarKind.BossHP, function (status) {
-    tiles.setCurrentTilemap(tilemap`level13`)
-    tiles.placeOnTile(mySprite, tiles.getTileLocation(3, 0))
-    mySprite.ay = 0
-    controller.moveSprite(mySprite)
+    tiles.setCurrentTilemap(tilemap`level14`)
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.FirstEnemy, function (sprite, otherSprite) {
     statusbars.getStatusBarAttachedTo(StatusBarKind.EnemyHealth, otherSprite).value += -1
@@ -252,6 +281,75 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, l
         `, mySprite, 100, 0)
     projectile3.setKind(SpriteKind.PizzaProjectile)
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.BeforeBattleBoss, function (sprite, otherSprite) {
+    otherSprite.setKind(SpriteKind.SecretBoss)
+    SecretFight1()
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.SecretBoss, function (sprite, otherSprite) {
+    DeleteTime += -100
+})
+sprites.onOverlap(SpriteKind.SecretBoss, SpriteKind.Projectile, function (sprite, otherSprite) {
+    DeleteTime += -50
+    animation.runImageAnimation(
+    sprite,
+    [img`
+        . f f f f f f f f f f f f f f . 
+        . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+        . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+        . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+        . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+        . . f f 1 f 1 f f f f 1 f f . . 
+        . . f f f f f f f f f f f f . . 
+        . f f f f c c c c c c f f f f . 
+        . f f f 4 b c c c c b 4 f f f . 
+        . . f f f d b b b b d f f f . . 
+        . . . f f f 4 4 4 4 f f f . . . 
+        . . e 4 f 2 2 2 2 2 2 f 4 e . . 
+        . . 4 d f 2 2 2 2 2 2 f d 4 . . 
+        . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
+        . . . . . f f f f f f . . . . . 
+        . . . . . f f . . f f . . . . . 
+        `,img`
+        . 1 1 1 1 1 1 1 1 1 1 1 1 1 1 . 
+        . 1 f f 1 f f 1 f 1 f 1 f f 1 . 
+        . 1 f f 1 f f 1 f 1 f 1 f f 1 . 
+        . . 1 f 1 f f 1 f 1 f 1 f 1 . . 
+        . . 1 f 1 f f 1 f 1 f 1 f 1 . . 
+        . . 1 1 f 1 f 1 1 1 1 f 1 1 . . 
+        . . 1 1 1 1 1 1 1 1 1 1 1 1 . . 
+        . 1 1 1 1 c c c c c c 1 1 1 1 . 
+        . 1 1 1 6 b c c c c b 6 1 1 1 . 
+        . . 1 1 1 9 b b b b 9 1 1 1 . . 
+        . . . 1 1 1 6 6 6 6 1 1 1 . . . 
+        . . 8 6 1 8 8 8 8 8 8 1 6 8 . . 
+        . . 6 9 1 8 8 8 8 8 8 1 d 6 . . 
+        . . 6 6 1 6 6 9 9 6 6 1 6 6 . . 
+        . . . . . 1 1 1 1 1 1 . . . . . 
+        . . . . . 1 1 . . 1 1 . . . . . 
+        `,img`
+        . f f f f f f f f f f f f f f . 
+        . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+        . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+        . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+        . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+        . . f f 1 f 1 f f f f 1 f f . . 
+        . . f f f f f f f f f f f f . . 
+        . f f f f c c c c c c f f f f . 
+        . f f f 4 b c c c c b 4 f f f . 
+        . . f f f d b b b b d f f f . . 
+        . . . f f f 4 4 4 4 f f f . . . 
+        . . e 4 f 2 2 2 2 2 2 f 4 e . . 
+        . . 4 d f 2 2 2 2 2 2 f d 4 . . 
+        . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
+        . . . . . f f f f f f . . . . . 
+        . . . . . f f . . f f . . . . . 
+        `],
+    150,
+    false
+    )
+    SBHP += -1
+    sprites.destroy(otherSprite)
+})
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     Left = 1
     Right = 0
@@ -263,6 +361,40 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.FirstEnemy, function (sprite, ot
     info.changeLifeBy(-1)
     pause(1000)
 })
+function SecretFight1 () {
+    tiles.setCurrentTilemap(tilemap`level16`)
+    tiles.placeOnRandomTile(_, sprites.castle.tileGrass2)
+    SBHP = 5
+    DeleteTime = 500
+    while (Secret1) {
+        pause(100)
+        projectile4 = sprites.createProjectileFromSprite(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . 4 4 4 . . 
+            . . . . . . . . 4 4 4 5 5 4 . . 
+            . . . . . . 4 4 5 5 5 5 5 4 . . 
+            . . . . 4 4 5 5 5 5 5 5 5 4 . . 
+            . . . 4 5 5 5 5 5 5 5 4 4 4 . . 
+            . . 4 4 4 4 4 4 4 4 4 5 5 4 . . 
+            . . 4 1 1 1 4 5 5 5 5 5 5 4 . . 
+            . . 4 4 4 4 5 5 5 5 5 5 5 4 . . 
+            . . . 4 4 4 4 5 5 5 5 5 5 4 . . 
+            . . . . . . . 4 4 4 5 5 5 4 . . 
+            . . . . . . . . . . 4 4 4 . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `, _, randint(-90, 90), randint(-90, 90))
+        projectile4.setKind(SpriteKind.SBP)
+        timer.after(DeleteTime, function () {
+            projectile4.follow(mySprite, 90)
+            if (sprites.allOfKind(SpriteKind.SBP).length > 10) {
+                sprites.destroyAllSpritesOfKind(SpriteKind.SBP)
+            }
+        })
+    }
+}
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     Right = 1
     Left = 0
@@ -326,15 +458,21 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
 })
 let projectile2: Sprite = null
 let mySprite3: Sprite = null
+let projectile4: Sprite = null
 let Right = 0
+let DeleteTime = 0
 let projectile3: Sprite = null
 let statusbar: StatusBarSprite = null
 let projectile: Sprite = null
 let Left = 0
+let Secret1 = false
+let _: Sprite = null
 let YesNo = ""
+let SpaceLV = false
 let statusbar2: StatusBarSprite = null
 let mySprite4: Sprite = null
 let Boss = false
+let SBHP = 0
 let Level1 = 0
 let Intro = 0
 let mySprite2: Sprite = null
@@ -464,53 +602,68 @@ true
 )
 Intro = 1
 Level1 = 0
+SBHP = 1
+forever(function () {
+    if (SBHP == 0) {
+        game.showLongText("Who was that?", DialogLayout.Bottom)
+        game.setGameOverMessage(true, "Secret Boss Ending!")
+        game.gameOver(true)
+    }
+})
 game.onUpdateInterval(10000, function () {
-    if (!(Boss)) {
-        if (Level1 > 1) {
-            mySprite3 = sprites.create(img`
-                . . . . . . . . 4 4 4 4 . . . . 
-                . . . . 4 4 4 4 5 5 5 5 4 . . . 
-                . 4 4 4 4 4 4 5 5 5 5 5 4 4 . . 
-                4 4 4 5 4 4 5 5 5 5 5 4 4 4 . . 
-                4 4 5 5 5 5 5 5 5 5 5 4 4 4 . . 
-                f 4 4 4 4 4 4 4 5 5 5 5 5 4 . . 
-                f 4 4 4 4 5 5 5 4 4 5 5 5 5 4 . 
-                f 4 4 4 5 5 5 5 5 5 4 4 5 5 5 4 
-                . 4 4 5 c 5 5 5 5 5 5 4 4 5 5 4 
-                . 4 5 5 c 5 5 5 c 5 5 4 4 4 5 4 
-                . 4 5 5 5 5 5 c 5 5 5 4 4 4 4 4 
-                . 4 5 b b b 5 5 4 4 4 4 4 4 4 4 
-                . . 4 5 5 5 5 4 5 5 4 4 5 5 4 4 
-                . . . 4 5 5 5 4 4 5 5 4 4 4 4 . 
-                . . . 4 4 b b 4 4 4 4 4 . . . . 
-                . . . 4 b b b 4 4 . . . . . . . 
-                `, SpriteKind.Enemy)
-            mySprite3.follow(mySprite, 90)
-            statusbar = statusbars.create(20, 4, StatusBarKind.EnemyHealth)
-            statusbar.attachToSprite(mySprite3)
-            statusbar.setColor(2, 15)
-            statusbar.max = 10
-            mySprite3.ay = 600
+    if (!(Secret1)) {
+        if (!(Boss)) {
+            if (Level1 > 1) {
+                mySprite3 = sprites.create(img`
+                    . . . . . . . . 4 4 4 4 . . . . 
+                    . . . . 4 4 4 4 5 5 5 5 4 . . . 
+                    . 4 4 4 4 4 4 5 5 5 5 5 4 4 . . 
+                    4 4 4 5 4 4 5 5 5 5 5 4 4 4 . . 
+                    4 4 5 5 5 5 5 5 5 5 5 4 4 4 . . 
+                    f 4 4 4 4 4 4 4 5 5 5 5 5 4 . . 
+                    f 4 4 4 4 5 5 5 4 4 5 5 5 5 4 . 
+                    f 4 4 4 5 5 5 5 5 5 4 4 5 5 5 4 
+                    . 4 4 5 c 5 5 5 5 5 5 4 4 5 5 4 
+                    . 4 5 5 c 5 5 5 c 5 5 4 4 4 5 4 
+                    . 4 5 5 5 5 5 c 5 5 5 4 4 4 4 4 
+                    . 4 5 b b b 5 5 4 4 4 4 4 4 4 4 
+                    . . 4 5 5 5 5 4 5 5 4 4 5 5 4 4 
+                    . . . 4 5 5 5 4 4 5 5 4 4 4 4 . 
+                    . . . 4 4 b b 4 4 4 4 4 . . . . 
+                    . . . 4 b b b 4 4 . . . . . . . 
+                    `, SpriteKind.Enemy)
+                mySprite3.follow(mySprite, 90)
+                statusbar = statusbars.create(20, 4, StatusBarKind.EnemyHealth)
+                statusbar.attachToSprite(mySprite3)
+                statusbar.setColor(2, 15)
+                statusbar.max = 10
+                mySprite3.ay = 600
+                if (SpaceLV) {
+                    tiles.placeOnRandomTile(mySprite3, assets.tile`myTile10`)
+                } else {
+                    tiles.placeOnRandomTile(mySprite3, assets.tile`transparency16`)
+                }
+            }
+        } else {
+            projectile2 = sprites.createProjectileFromSprite(img`
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                f f f f f . . . f . . . f . f . 
+                . . f . . . . f . f . . . f . . 
+                . . f . . . . f f f . . . f . . 
+                . . f . . . . f . f . . f . f . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                `, mySprite4, -170, 0)
+            projectile2.setKind(SpriteKind.BossProjectile)
         }
-    } else {
-        projectile2 = sprites.createProjectileFromSprite(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            f f f f f . . . f . . . f . f . 
-            . . f . . . . f . f . . . f . . 
-            . . f . . . . f f f . . . f . . 
-            . . f . . . . f . f . . f . f . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `, mySprite4, -170, 0)
-        projectile2.setKind(SpriteKind.BossProjectile)
     }
 })

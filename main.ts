@@ -59,12 +59,15 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, l
         statusbar2.max = 3
         statusbar2.attachToSprite(mySprite4)
     } else if (Level1 == 3) {
+        Level1 += 1
         tiles.setCurrentTilemap(tilemap`level21`)
         mySprite.ay = 600
         mySprite.ay = 600
         controller.moveSprite(mySprite, 100, 0)
         sprites.destroy(mySprite2)
     } else if (Level1 == 4) {
+        Level1 += 1
+        scene.setBackgroundColor(15)
         tiles.setCurrentTilemap(tilemap`level10`)
         controller.moveSprite(mySprite, 100, 0)
         mySprite.ay = 400

@@ -1,5 +1,6 @@
 {
     "name": "Kyle's Cheese Cuisine.",
+    "version": "0.1.0",
     "description": "",
     "dependencies": {
         "device": "*",

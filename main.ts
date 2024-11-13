@@ -99,7 +99,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, l
             . . . . . f f . . f f . . . . . 
             `, SpriteKind.Kyle)
         statusbar3 = statusbars.create(20, 4, StatusBarKind.KyleHp)
-        statusbar3.max = 39
+        statusbar3.max = 30
         statusbar3.attachToSprite(mySprite5)
         tiles.placeOnTile(mySprite5, tiles.getTileLocation(8, 8))
         tiles.placeOnTile(mySprite, tiles.getTileLocation(7, 8))
@@ -279,86 +279,91 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.BossProjectile, function (sprite
     info.changeLifeBy(-1)
 })
 statusbars.onZero(StatusBarKind.KyleHp, function (status) {
-    Phase += 1
-    animation.runImageAnimation(
-    mySprite5,
-    [img`
-        . f f f f f f f f f f f f f f . 
-        . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
-        . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
-        . . f 1 f 1 1 f 1 f 1 f 1 f . . 
-        . . f 1 f 1 1 f 1 f 1 f 1 f . . 
-        . . f f 1 f 1 f f f f 1 f f . . 
-        . . f f f f e e e e f f f f . . 
-        . f f e f b f 4 4 f b f e f f . 
-        . f e e 4 1 f d d f 1 4 e e f . 
-        . . f e e d d d d d d e e f . . 
-        . . . f e e 4 4 4 4 e e f . . . 
-        . . e 4 f 2 2 2 2 2 2 f 4 e . . 
-        . . 4 d f 2 2 2 2 2 2 f d 4 . . 
-        . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
-        . . . . . f f f f f f . . . . . 
-        . . . . . f f . . f f . . . . . 
-        `,img`
-        . f f f f f f f f f f f f f f . 
-        . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
-        . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
-        . . f 1 f 1 1 f 1 f 1 f 1 f . . 
-        . . f 1 f 1 1 f 1 f 1 f 1 f . . 
-        . . f f 1 f 1 f f f f 1 f f . . 
-        . . f f f f e e e e f f f f . . 
-        . f f e f b 2 4 4 2 b f e 1 f . 
-        . f e 1 4 1 2 d d 2 1 4 e e f . 
-        . . f e e d d d d d d e e f . . 
-        . . . f e 1 4 4 4 4 e e f . . . 
-        . . e 4 f 2 2 2 2 2 1 f 4 e . . 
-        . . 4 d f 2 2 2 2 2 2 f d 4 . . 
-        . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
-        . . . . . f f f f f f . . . . . 
-        . . . . . f f . . f f . . . . . 
-        `,img`
-        . f f f f f f f f f f f f f f . 
-        . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
-        . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
-        . . f 1 f 1 1 f 1 f 1 f 1 f . . 
-        . . f 1 f 1 1 f 1 f 1 f 1 f . . 
-        . . f f 1 f 1 f f f f 1 f 1 . . 
-        . . f f f f e e e e f f 1 f 1 . 
-        . f f 1 f b 2 4 4 2 b 1 e e f 1 
-        . f 1 e 1 1 2 d d 2 1 4 1 e 1 . 
-        . . f 1 e 1 d d d d d e e 1 . . 
-        . . . f 1 e 1 4 4 4 1 e f . . . 
-        . . e 4 f 1 2 2 2 1 1 1 4 e . . 
-        . . 4 d f 2 2 2 2 2 1 f d 4 . . 
-        . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
-        . . . . . f f f f f f . . . . . 
-        . . . . . f f . . f f . . . . . 
-        `,img`
-        . f f f f f f f f f f f f f f . 
-        . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
-        . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
-        . . f 1 f 1 1 f 1 f 1 f 1 f . . 
-        . . f 1 f 1 1 f 1 f 1 f 1 f . . 
-        . . f f 1 f 1 f f f f 1 f f . . 
-        . . f f f f e e e e f f f f . . 
-        . f f e f b 2 4 4 2 b f e f f . 
-        . f e e 4 1 2 d d 2 1 4 e e f . 
-        . . f e e d d d d d d e e f . . 
-        . . . f e e 4 4 4 4 e e f . . . 
-        . . e 4 f 2 2 2 2 2 2 f 4 e . . 
-        . . 4 d f 2 2 2 2 2 2 f d 4 . . 
-        . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
-        . . . . . f f f f f f . . . . . 
-        . . . . . f f . . f f . . . . . 
-        `],
-    150,
-    false
-    )
-    controller.moveSprite(mySprite, 0, 0)
-    timer.after(600, function () {
-        controller.moveSprite(mySprite, 100, 100)
-        statusbar3.max = 35
-    })
+    if (Phase != 2) {
+        Phase += 1
+        animation.runImageAnimation(
+        mySprite5,
+        [img`
+            . f f f f f f f f f f f f f f . 
+            . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+            . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+            . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+            . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+            . . f f 1 f 1 f f f f 1 f f . . 
+            . . f f f f e e e e f f f f . . 
+            . f f e f b f 4 4 f b f e f f . 
+            . f e e 4 1 f d d f 1 4 e e f . 
+            . . f e e d d d d d d e e f . . 
+            . . . f e e 4 4 4 4 e e f . . . 
+            . . e 4 f 2 2 2 2 2 2 f 4 e . . 
+            . . 4 d f 2 2 2 2 2 2 f d 4 . . 
+            . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
+            . . . . . f f f f f f . . . . . 
+            . . . . . f f . . f f . . . . . 
+            `,img`
+            . f f f f f f f f f f f f f f . 
+            . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+            . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+            . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+            . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+            . . f f 1 f 1 f f f f 1 f f . . 
+            . . f f f f e e e e f f f f . . 
+            . f f e f b 2 4 4 2 b f e 1 f . 
+            . f e 1 4 1 2 d d 2 1 4 e e f . 
+            . . f e e d d d d d d e e f . . 
+            . . . f e 1 4 4 4 4 e e f . . . 
+            . . e 4 f 2 2 2 2 2 1 f 4 e . . 
+            . . 4 d f 2 2 2 2 2 2 f d 4 . . 
+            . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
+            . . . . . f f f f f f . . . . . 
+            . . . . . f f . . f f . . . . . 
+            `,img`
+            . f f f f f f f f f f f f f f . 
+            . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+            . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+            . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+            . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+            . . f f 1 f 1 f f f f 1 f 1 . . 
+            . . f f f f e e e e f f 1 f 1 . 
+            . f f 1 f b 2 4 4 2 b 1 e e f 1 
+            . f 1 e 1 1 2 d d 2 1 4 1 e 1 . 
+            . . f 1 e 1 d d d d d e e 1 . . 
+            . . . f 1 e 1 4 4 4 1 e f . . . 
+            . . e 4 f 1 2 2 2 1 1 1 4 e . . 
+            . . 4 d f 2 2 2 2 2 1 f d 4 . . 
+            . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
+            . . . . . f f f f f f . . . . . 
+            . . . . . f f . . f f . . . . . 
+            `,img`
+            . f f f f f f f f f f f f f f . 
+            . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+            . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+            . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+            . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+            . . f f 1 f 1 f f f f 1 f f . . 
+            . . f f f f e e e e f f f f . . 
+            . f f e f b 2 4 4 2 b f e f f . 
+            . f e e 4 1 2 d d 2 1 4 e e f . 
+            . . f e e d d d d d d e e f . . 
+            . . . f e e 4 4 4 4 e e f . . . 
+            . . e 4 f 2 2 2 2 2 2 f 4 e . . 
+            . . 4 d f 2 2 2 2 2 2 f d 4 . . 
+            . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
+            . . . . . f f f f f f . . . . . 
+            . . . . . f f . . f f . . . . . 
+            `],
+        150,
+        false
+        )
+        controller.moveSprite(mySprite, 0, 0)
+        timer.after(600, function () {
+            controller.moveSprite(mySprite, 100, 100)
+            statusbar3.max = 35
+            statusbar3.value = 35
+        })
+    } else {
+        game.gameOver(true)
+    }
 })
 sprites.onDestroyed(SpriteKind.FirstEnemy, function (sprite) {
     if (Intro == 1) {
@@ -478,7 +483,6 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile9`, function (sprite, l
     game.gameOver(true)
 })
 sprites.onOverlap(SpriteKind.Kyle, SpriteKind.Projectile, function (sprite, otherSprite) {
-    DeleteTime += -50
     animation.runImageAnimation(
     sprite,
     [img`

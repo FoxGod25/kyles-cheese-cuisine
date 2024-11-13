@@ -8,11 +8,14 @@ namespace SpriteKind {
     export const SecretBoss = SpriteKind.create()
     export const SBP = SpriteKind.create()
     export const BeforeBattleBoss = SpriteKind.create()
+    export const Kyle = SpriteKind.create()
 }
 namespace StatusBarKind {
     export const BossHP = StatusBarKind.create()
+    export const KyleHp = StatusBarKind.create()
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, location) {
+    Overworld = false
     if (Level1 == 0) {
         game.showLongText("You're new here so i'll show you the ropes ", DialogLayout.Bottom)
     }
@@ -73,8 +76,34 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, l
         mySprite.ay = 400
         sprites.destroy(mySprite2)
         SpaceLV = true
-    } else if (false) {
-    	
+    } else if (Level1 == 5) {
+        KyleBattle = true
+        scene.setBackgroundColor(15)
+        tiles.setCurrentTilemap(tilemap`level23`)
+        mySprite5 = sprites.create(img`
+            . f f f f f f f f f f f f f f . 
+            . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+            . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+            . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+            . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+            . . f f 1 f 1 f f f f 1 f f . . 
+            . . f f f f e e e e f f f f . . 
+            . f f e f b f 4 4 f b f e f f . 
+            . f e e 4 1 f d d f 1 4 e e f . 
+            . . f e e d d d d d d e e f . . 
+            . . . f e e 4 4 4 4 e e f . . . 
+            . . e 4 f 2 2 2 2 2 2 f 4 e . . 
+            . . 4 d f 2 2 2 2 2 2 f d 4 . . 
+            . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
+            . . . . . f f f f f f . . . . . 
+            . . . . . f f . . f f . . . . . 
+            `, SpriteKind.Kyle)
+        statusbar3 = statusbars.create(20, 4, StatusBarKind.KyleHp)
+        statusbar3.max = 39
+        statusbar3.attachToSprite(mySprite5)
+        tiles.placeOnTile(mySprite5, tiles.getTileLocation(8, 8))
+        tiles.placeOnTile(mySprite, tiles.getTileLocation(7, 8))
+        Phase = 1
     }
 })
 scene.onHitWall(SpriteKind.Player, function (sprite, location) {
@@ -115,6 +144,7 @@ scene.onHitWall(SpriteKind.Player, function (sprite, location) {
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile6`, function (sprite, location) {
+    Overworld = true
     mySprite.ay = 0
     controller.moveSprite(mySprite)
     info.setLife(3)
@@ -180,6 +210,10 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile6`, function (sprite, l
     true
     )
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.SBP, function (sprite, otherSprite) {
+    info.changeLifeBy(-1)
+    pause(500)
+})
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     if (Left == 1) {
         projectile = sprites.createProjectileFromSprite(img`
@@ -233,6 +267,7 @@ controller.combos.attachCombo("" + controller.combos.idToString(controller.combo
 })
 statusbars.onZero(StatusBarKind.BossHP, function (status) {
     tiles.setCurrentTilemap(tilemap`level14`)
+    sprites.destroy(mySprite4)
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.FirstEnemy, function (sprite, otherSprite) {
     statusbars.getStatusBarAttachedTo(StatusBarKind.EnemyHealth, otherSprite).value += -1
@@ -242,6 +277,88 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.FirstEnemy, function (sprite
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.BossProjectile, function (sprite, otherSprite) {
     info.changeLifeBy(-1)
+})
+statusbars.onZero(StatusBarKind.KyleHp, function (status) {
+    Phase += 1
+    animation.runImageAnimation(
+    mySprite5,
+    [img`
+        . f f f f f f f f f f f f f f . 
+        . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+        . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+        . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+        . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+        . . f f 1 f 1 f f f f 1 f f . . 
+        . . f f f f e e e e f f f f . . 
+        . f f e f b f 4 4 f b f e f f . 
+        . f e e 4 1 f d d f 1 4 e e f . 
+        . . f e e d d d d d d e e f . . 
+        . . . f e e 4 4 4 4 e e f . . . 
+        . . e 4 f 2 2 2 2 2 2 f 4 e . . 
+        . . 4 d f 2 2 2 2 2 2 f d 4 . . 
+        . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
+        . . . . . f f f f f f . . . . . 
+        . . . . . f f . . f f . . . . . 
+        `,img`
+        . f f f f f f f f f f f f f f . 
+        . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+        . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+        . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+        . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+        . . f f 1 f 1 f f f f 1 f f . . 
+        . . f f f f e e e e f f f f . . 
+        . f f e f b 2 4 4 2 b f e 1 f . 
+        . f e 1 4 1 2 d d 2 1 4 e e f . 
+        . . f e e d d d d d d e e f . . 
+        . . . f e 1 4 4 4 4 e e f . . . 
+        . . e 4 f 2 2 2 2 2 1 f 4 e . . 
+        . . 4 d f 2 2 2 2 2 2 f d 4 . . 
+        . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
+        . . . . . f f f f f f . . . . . 
+        . . . . . f f . . f f . . . . . 
+        `,img`
+        . f f f f f f f f f f f f f f . 
+        . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+        . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+        . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+        . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+        . . f f 1 f 1 f f f f 1 f 1 . . 
+        . . f f f f e e e e f f 1 f 1 . 
+        . f f 1 f b 2 4 4 2 b 1 e e f 1 
+        . f 1 e 1 1 2 d d 2 1 4 1 e 1 . 
+        . . f 1 e 1 d d d d d e e 1 . . 
+        . . . f 1 e 1 4 4 4 1 e f . . . 
+        . . e 4 f 1 2 2 2 1 1 1 4 e . . 
+        . . 4 d f 2 2 2 2 2 1 f d 4 . . 
+        . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
+        . . . . . f f f f f f . . . . . 
+        . . . . . f f . . f f . . . . . 
+        `,img`
+        . f f f f f f f f f f f f f f . 
+        . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+        . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+        . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+        . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+        . . f f 1 f 1 f f f f 1 f f . . 
+        . . f f f f e e e e f f f f . . 
+        . f f e f b 2 4 4 2 b f e f f . 
+        . f e e 4 1 2 d d 2 1 4 e e f . 
+        . . f e e d d d d d d e e f . . 
+        . . . f e e 4 4 4 4 e e f . . . 
+        . . e 4 f 2 2 2 2 2 2 f 4 e . . 
+        . . 4 d f 2 2 2 2 2 2 f d 4 . . 
+        . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
+        . . . . . f f f f f f . . . . . 
+        . . . . . f f . . f f . . . . . 
+        `],
+    150,
+    false
+    )
+    controller.moveSprite(mySprite, 0, 0)
+    timer.after(600, function () {
+        controller.moveSprite(mySprite, 100, 100)
+        statusbar3.max = 35
+    })
 })
 sprites.onDestroyed(SpriteKind.FirstEnemy, function (sprite) {
     if (Intro == 1) {
@@ -360,6 +477,68 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile9`, function (sprite, location) {
     game.gameOver(true)
 })
+sprites.onOverlap(SpriteKind.Kyle, SpriteKind.Projectile, function (sprite, otherSprite) {
+    DeleteTime += -50
+    animation.runImageAnimation(
+    sprite,
+    [img`
+        . f f f f f f f f f f f f f f . 
+        . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+        . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+        . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+        . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+        . . f f 1 f 1 f f f f 1 f f . . 
+        . . f f f f e e e e e f f f . . 
+        . f f e f b f 4 4 f b e e f f . 
+        . f e e 4 1 f d d f 1 4 e e f . 
+        . . f e e d d d d d d e e f . . 
+        . . . f e e 4 4 4 4 e e f . . . 
+        . . e 4 f 2 2 2 2 2 2 f 4 e . . 
+        . . 4 d f 2 2 2 2 2 2 f d 4 . . 
+        . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
+        . . . . . f f f f f f . . . . . 
+        . . . . . f f . . f f . . . . . 
+        `,img`
+        . 1 1 1 1 1 1 1 1 1 1 1 1 1 1 . 
+        . 1 f f 1 f f 1 f 1 f 1 f f 1 . 
+        . 1 f f 1 f f 1 f 1 f 1 f f 1 . 
+        . . 1 f 1 f f 1 f 1 f 1 f 1 . . 
+        . . 1 f 1 f f 1 f 1 f 1 f 1 . . 
+        . . 1 1 f 1 f 1 1 1 1 f 1 1 . . 
+        . . 1 1 1 1 8 8 8 8 8 1 1 1 . . 
+        . 1 1 8 8 b 1 c c 1 b 8 8 1 1 . 
+        . 1 8 8 6 f 1 c c 1 f 6 8 8 1 . 
+        . . 1 8 8 9 b b b b 9 8 8 1 . . 
+        . . . 1 8 8 6 6 6 6 8 8 1 . . . 
+        . . 8 6 1 8 8 8 8 8 8 1 6 8 . . 
+        . . 6 9 1 8 8 8 8 8 8 1 d 6 . . 
+        . . 6 6 1 6 6 9 9 6 6 1 6 6 . . 
+        . . . . . 1 1 1 1 1 1 . . . . . 
+        . . . . . 1 1 . . 1 1 . . . . . 
+        `,img`
+        . f f f f f f f f f f f f f f . 
+        . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+        . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
+        . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+        . . f 1 f 1 1 f 1 f 1 f 1 f . . 
+        . . f f 1 f 1 f f f f 1 f f . . 
+        . . f f f f e e e e e f f f . . 
+        . f f e f b f 4 4 f b e e f f . 
+        . f e e 4 1 f d d f 1 4 e e f . 
+        . . f e e d d d d d d e e f . . 
+        . . . f e e 4 4 4 4 e e f . . . 
+        . . e 4 f 2 2 2 2 2 2 f 4 e . . 
+        . . 4 d f 2 2 2 2 2 2 f d 4 . . 
+        . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
+        . . . . . f f f f f f . . . . . 
+        . . . . . f f . . f f . . . . . 
+        `],
+    150,
+    false
+    )
+    statusbar3.value += -1
+    sprites.destroy(otherSprite)
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.FirstEnemy, function (sprite, otherSprite) {
     info.changeLifeBy(-1)
     pause(1000)
@@ -471,10 +650,15 @@ let Left = 0
 let Secret1 = false
 let _: Sprite = null
 let YesNo = ""
+let Phase = 0
+let statusbar3: StatusBarSprite = null
+let mySprite5: Sprite = null
+let KyleBattle = false
 let SpaceLV = false
 let statusbar2: StatusBarSprite = null
 let mySprite4: Sprite = null
 let Boss = false
+let Overworld = false
 let SBHP = 0
 let Level1 = 0
 let Intro = 0
@@ -606,6 +790,16 @@ true
 Intro = 1
 Level1 = 0
 SBHP = 1
+game.onUpdateInterval(2000, function () {
+    if (KyleBattle) {
+        mySprite.setVelocity(randint(-100, 100), randint(-100, 100))
+        mySprite.ax = 25
+        mySprite.ay = 25
+        timer.after(500, function () {
+            mySprite.setVelocity(0, 0)
+        })
+    }
+})
 forever(function () {
     if (SBHP == 0) {
         game.showLongText("Who was that?", DialogLayout.Bottom)
@@ -614,59 +808,67 @@ forever(function () {
     }
 })
 game.onUpdateInterval(10000, function () {
-    if (!(Secret1)) {
-        if (!(Boss)) {
-            if (Level1 > 1) {
-                mySprite3 = sprites.create(img`
-                    . . . . . . . . 4 4 4 4 . . . . 
-                    . . . . 4 4 4 4 5 5 5 5 4 . . . 
-                    . 4 4 4 4 4 4 5 5 5 5 5 4 4 . . 
-                    4 4 4 5 4 4 5 5 5 5 5 4 4 4 . . 
-                    4 4 5 5 5 5 5 5 5 5 5 4 4 4 . . 
-                    f 4 4 4 4 4 4 4 5 5 5 5 5 4 . . 
-                    f 4 4 4 4 5 5 5 4 4 5 5 5 5 4 . 
-                    f 4 4 4 5 5 5 5 5 5 4 4 5 5 5 4 
-                    . 4 4 5 c 5 5 5 5 5 5 4 4 5 5 4 
-                    . 4 5 5 c 5 5 5 c 5 5 4 4 4 5 4 
-                    . 4 5 5 5 5 5 c 5 5 5 4 4 4 4 4 
-                    . 4 5 b b b 5 5 4 4 4 4 4 4 4 4 
-                    . . 4 5 5 5 5 4 5 5 4 4 5 5 4 4 
-                    . . . 4 5 5 5 4 4 5 5 4 4 4 4 . 
-                    . . . 4 4 b b 4 4 4 4 4 . . . . 
-                    . . . 4 b b b 4 4 . . . . . . . 
-                    `, SpriteKind.Enemy)
-                mySprite3.follow(mySprite, 90)
-                statusbar = statusbars.create(20, 4, StatusBarKind.EnemyHealth)
-                statusbar.attachToSprite(mySprite3)
-                statusbar.setColor(2, 15)
-                statusbar.max = 10
-                mySprite3.ay = 600
-                if (SpaceLV) {
-                    tiles.placeOnRandomTile(mySprite3, assets.tile`myTile10`)
+    if (!(Overworld)) {
+        if (!(KyleBattle)) {
+            if (!(Secret1)) {
+                if (!(Boss)) {
+                    if (Level1 > 1) {
+                        mySprite3 = sprites.create(img`
+                            . . . . . . . . 4 4 4 4 . . . . 
+                            . . . . 4 4 4 4 5 5 5 5 4 . . . 
+                            . 4 4 4 4 4 4 5 5 5 5 5 4 4 . . 
+                            4 4 4 5 4 4 5 5 5 5 5 4 4 4 . . 
+                            4 4 5 5 5 5 5 5 5 5 5 4 4 4 . . 
+                            f 4 4 4 4 4 4 4 5 5 5 5 5 4 . . 
+                            f 4 4 4 4 5 5 5 4 4 5 5 5 5 4 . 
+                            f 4 4 4 5 5 5 5 5 5 4 4 5 5 5 4 
+                            . 4 4 5 c 5 5 5 5 5 5 4 4 5 5 4 
+                            . 4 5 5 c 5 5 5 c 5 5 4 4 4 5 4 
+                            . 4 5 5 5 5 5 c 5 5 5 4 4 4 4 4 
+                            . 4 5 b b b 5 5 4 4 4 4 4 4 4 4 
+                            . . 4 5 5 5 5 4 5 5 4 4 5 5 4 4 
+                            . . . 4 5 5 5 4 4 5 5 4 4 4 4 . 
+                            . . . 4 4 b b 4 4 4 4 4 . . . . 
+                            . . . 4 b b b 4 4 . . . . . . . 
+                            `, SpriteKind.Enemy)
+                        mySprite3.follow(mySprite, 90)
+                        statusbar = statusbars.create(20, 4, StatusBarKind.EnemyHealth)
+                        statusbar.attachToSprite(mySprite3)
+                        statusbar.setColor(2, 15)
+                        statusbar.max = 10
+                        mySprite3.ay = 600
+                        if (SpaceLV) {
+                            tiles.placeOnRandomTile(mySprite3, assets.tile`myTile10`)
+                        } else {
+                            tiles.placeOnRandomTile(mySprite3, assets.tile`transparency16`)
+                        }
+                    }
                 } else {
-                    tiles.placeOnRandomTile(mySprite3, assets.tile`transparency16`)
+                    projectile2 = sprites.createProjectileFromSprite(img`
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        f f f f f . . . f . . . f . f . 
+                        . . f . . . . f . f . . . f . . 
+                        . . f . . . . f f f . . . f . . 
+                        . . f . . . . f . f . . f . f . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        `, mySprite4, -170, 0)
+                    projectile2.setKind(SpriteKind.BossProjectile)
                 }
             }
         } else {
-            projectile2 = sprites.createProjectileFromSprite(img`
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                f f f f f . . . f . . . f . f . 
-                . . f . . . . f . f . . . f . . 
-                . . f . . . . f f f . . . f . . 
-                . . f . . . . f . f . . f . f . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                . . . . . . . . . . . . . . . . 
-                `, mySprite4, -170, 0)
-            projectile2.setKind(SpriteKind.BossProjectile)
+        	
         }
+    } else {
+    	
     }
 })

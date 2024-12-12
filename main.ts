@@ -76,6 +76,24 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, l
         mySprite.ay = 400
         sprites.destroy(mySprite2)
         SpaceLV = true
+        mySprite6 = sprites.create(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `, SpriteKind.Guide)
     } else if (Level1 == 5) {
         KyleBattle = true
         scene.setBackgroundColor(15)
@@ -279,7 +297,9 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.BossProjectile, function (sprite
     info.changeLifeBy(-1)
 })
 statusbars.onZero(StatusBarKind.KyleHp, function (status) {
-    if (Phase != 2) {
+    if (Phase == 2) {
+        game.gameOver(true)
+    } else {
         Phase += 1
         animation.runImageAnimation(
         mySprite5,
@@ -361,8 +381,6 @@ statusbars.onZero(StatusBarKind.KyleHp, function (status) {
             statusbar3.max = 35
             statusbar3.value = 35
         })
-    } else {
-        game.gameOver(true)
     }
 })
 sprites.onDestroyed(SpriteKind.FirstEnemy, function (sprite) {
@@ -658,6 +676,7 @@ let Phase = 0
 let statusbar3: StatusBarSprite = null
 let mySprite5: Sprite = null
 let KyleBattle = false
+let mySprite6: Sprite = null
 let SpaceLV = false
 let statusbar2: StatusBarSprite = null
 let mySprite4: Sprite = null
@@ -803,6 +822,9 @@ game.onUpdateInterval(2000, function () {
             mySprite.setVelocity(0, 0)
         })
     }
+})
+game.onUpdateInterval(2000, function () {
+	
 })
 forever(function () {
     if (SBHP == 0) {

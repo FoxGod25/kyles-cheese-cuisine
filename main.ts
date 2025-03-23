@@ -555,8 +555,8 @@ scene.onOverlapTile(SpriteKind.Player, myTiles.tile3, function (sprite, location
     } else if (Level1 == 5) {
         KyleBattle = true
         scene.setBackgroundColor(15)
-        tiles.setCurrentTilemap(tilemap`level23`)
         tiles.placeOnTile(mySprite, tiles.getTileLocation(7, 8))
+        tiles.setCurrentTilemap(tilemap`level23`)
         mySprite5 = sprites.create(img`
             . f f f f f f f f f f f f f f . 
             . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 

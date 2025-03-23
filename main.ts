@@ -556,6 +556,7 @@ scene.onOverlapTile(SpriteKind.Player, myTiles.tile3, function (sprite, location
         KyleBattle = true
         scene.setBackgroundColor(15)
         tiles.setCurrentTilemap(tilemap`level23`)
+        tiles.placeOnTile(mySprite, tiles.getTileLocation(7, 8))
         mySprite5 = sprites.create(img`
             . f f f f f f f f f f f f f f . 
             . f 1 1 f 1 1 f 1 f 1 f 1 1 f . 
@@ -574,11 +575,10 @@ scene.onOverlapTile(SpriteKind.Player, myTiles.tile3, function (sprite, location
             . . . . . f f f f f f . . . . . 
             . . . . . f f . . f f . . . . . 
             `, SpriteKind.Kyle)
+        tiles.placeOnTile(mySprite5, tiles.getTileLocation(8, 8))
         statusbar3 = statusbars.create(20, 4, StatusBarKind.KyleHp)
         statusbar3.max = 30
         statusbar3.attachToSprite(mySprite5)
-        tiles.placeOnTile(mySprite5, tiles.getTileLocation(8, 8))
-        tiles.placeOnTile(mySprite, tiles.getTileLocation(7, 8))
         Phase = 1
     }
 })

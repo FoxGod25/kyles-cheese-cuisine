@@ -261,7 +261,7 @@ sprites.onDestroyed(SpriteKind.FirstEnemy, function (sprite) {
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (mySprite.isHittingTile(CollisionDirection.Bottom)) {
-        if (Level1 > 0) {
+        if (!(Overworld)) {
             mySprite.vy = -300
         }
     }
@@ -678,11 +678,11 @@ let mySprite6: Sprite = null
 let SpaceLV = false
 let statusbar2: StatusBarSprite = null
 let Boss = false
-let Overworld = false
 let projectile4: Sprite = null
 let Right = 0
 let projectile3: Sprite = null
 let DeleteTime = 0
+let Overworld = false
 let statusbar3: StatusBarSprite = null
 let mySprite5: Sprite = null
 let Phase = 0
